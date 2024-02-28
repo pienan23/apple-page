@@ -1,0 +1,73 @@
+
+<?php 
+/*include_once('conn.php');*/
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "notedb";
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if (!$conn) {
+die("Connection failed: " . mysqli_connect_error());
+} 
+$mess='';
+$mess2='';
+$mess3='';
+?>
+<?php
+ if(isset($_GET['action'])){
+   $action=$_GET['action'];
+   if($action=="deconn"){
+   unset($_SESSION['id']);
+    unset($_SESSION['log']);
+   
+   }
+ }
+ ?>
+ <?php
+$mess="";
+if(isset($_POST['bouton'])){
+$lg=@$_POST['logger'];
+$ps=@$_POST['passer'];
+$rq="select * from cle where login='$lg'";
+$exe=mysqli_query($conn,$rq);
+$result=mysql_fetch_assoc($exe);
+if($result){
+  if($result['pass']==$ps){
+  $_SESSION['id']=$result['id'];
+   $_SESSION['login']=$lg;
+   header('Location:accueil.php');
+   exit();
+  }
+  else
+  $mess="mot de passe incorrect!!";
+}
+else
+ $mess="login introuvable!";
+
+}
+
+?>
+<!-- Created by TopStyle Trial - www.topstyle4.com -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>php</title>
+	<meta charset="utf8">
+	<link rel="stylesheet" type="text/css" href="style1.css">
+</head>
+
+<body>
+	<form action="" method="POST" >
+  <table align="center" id="tab0">
+  
+     <tr ><td></td><td> <?php print $mess;?></td></tr>
+   <tr><td>Login</td><td><input type="text" name="logger" ></td></tr>
+   <tr><td>Password</td><td><input type="password" name="passer" ></td></tr>
+   <tr><td></td><td><input type="submit" name="bouton" value="entrer" id="btc"></td></tr>
+  
+  </table>
+  </form>
+</body>
+</html>

@@ -1,0 +1,19 @@
+conception de la base de données: notedb (SGBD=Mysql)
+
+create database notedb character set'utf8';
+use notedb;
+
+create table note(
+matricule varchar(20) not null,
+matiere varchar(100) not null,
+controle decimal(4,2),
+examen decimal(4,2),
+tp decimal(4,2),
+primary key(matricule,matiere))
+engine=innodb;
+
+create table secret(
+id smallint auto_increment primary key,
+login varchar(20) not null,
+password varchar(20) not null)
+engine=innodb;
